@@ -3,5 +3,5 @@
 
 ## Prompt
 ```
-寫出一個視覺助理的html, 使用webcam 有擷取，詢問，朗讀 等按鍵，可輸入Gemini API Key, 及輸入模型名稱（default="gemini-2.5-flash"), 加入Tailwind風格, 支援RWD
+寫出一個視覺助理的html，標題為"視覺助理",標題下方有textbox可輸入Gemini API Key，使用webcam，畫面中間為照片視窗，點擊照片視窗下方區域可拍照，點擊照片視窗下方區域可辨識與朗讀結果，呼叫gemini-2.5-flash模型進行辨識，畫面最上方, 加入Tailwind風格.
 ```
