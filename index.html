@@ -205,7 +205,7 @@ async function analyzeImage(){
 
         const response = await fetch(
 
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
 
             {
                 method:"POST",
@@ -219,10 +219,13 @@ async function analyzeImage(){
                     contents:[
 
                         {
+
+                            role:"user",
+
                             parts:[
 
                                 {
-                                    text:"請用繁體中文簡短描述畫面中的重要物件、人物、障礙物與環境，協助視障者理解周遭情況。"
+                                    text:"請用15個中文字描述這張圖片中的重要人物、物件、障礙物與周遭環境，協助視障者理解周圍情況。"
                                 },
 
                                 {
@@ -242,14 +245,29 @@ async function analyzeImage(){
 
         console.log(data);
 
-        // ===== Gemini 回應 =====
+        // ===== 顯示完整錯誤 =====
+
+        if(data.error){
+
+            console.error(data.error);
+
+            resultDiv.innerText =
+            "API錯誤：" + data.error.message;
+
+            speak("API發生錯誤");
+
+            return;
+        }
+
+        // ===== Gemini成功 =====
 
         if(
             data.candidates &&
             data.candidates.length > 0
         ){
 
-            const text = data.candidates[0]
+            const text =
+            data.candidates[0]
             .content.parts[0].text;
 
             resultDiv.innerText = text;
@@ -258,18 +276,20 @@ async function analyzeImage(){
 
         }else{
 
+            resultDiv.innerText =
+            "AI沒有成功產生內容";
+
             console.log(data);
 
-            resultDiv.innerText = "AI沒有成功回應";
-
-            speak("AI沒有成功回應");
+            speak("AI沒有成功產生內容");
         }
 
     }catch(error){
 
         console.error(error);
 
-        resultDiv.innerText = "AI辨識失敗";
+        resultDiv.innerText =
+        "AI辨識失敗：" + error.message;
 
         speak("AI辨識失敗");
     }
